@@ -12,7 +12,7 @@ export default class Capitulo {
     private _texto: string;
 
     //Os parâmetros do mesmo são opcionais
-    constructor( titulo?: string, texto?: string ){
+    constructor( titulo: string = '', texto: string = '' ){
         this._titulo = titulo;
         this._texto = texto;
     }
@@ -30,7 +30,6 @@ export default class Capitulo {
     }
 
     public equals(obj: object): boolean{
-        //Realiza um casting do obj genérico para a classe 'Capitulo'
         const capitulo = obj as Capitulo;
 
         if( this.constructor !== obj.constructor )
@@ -42,7 +41,4 @@ export default class Capitulo {
         else
             return true;        
     }
-
-    //O método 'toString()' presente na documentação não precisa ser implementado.
-
 }
