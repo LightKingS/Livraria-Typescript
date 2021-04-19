@@ -1,6 +1,9 @@
 import Autor from "./Autor";
 import Capitulo from "./Capitulo";
 import { Livro } from "./Livro";
+import promptSync from 'prompt-sync';
+
+const prompt = promptSync();
 
 let Livros = []
 
