@@ -26,7 +26,9 @@ export default class Livro{
     public get getCapitulos() : Capitulo[] {
         return this._capitulos;
     }
-    
+
+    get getTitulo(){ return this._titulo; }
+
     public set setCapitulos(capitulos: Capitulo[]){
         this._capitulos = capitulos;
     }
