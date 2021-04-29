@@ -71,7 +71,6 @@ function cadastrarLivro(): number {
         return -1
     }
 }
-
 function cadastrarAutores(novoLivro: Livro): void {
     let numAutor = +prompt("Digite o número de autores: ")
     for (let i = 0; i < numAutor; i++) {
@@ -85,7 +84,7 @@ function cadastrarAutores(novoLivro: Livro): void {
 }
 
 function cadastrarCapitulos(novoLivro: Livro): void {
-    let numCap = +prompt("Digite o número de capítulos: ")
+    let numCap = +prompt("Digite o número de capítulos a serem adicionados: ")
     for (let i = 0; i < numCap; i++) {
         let titulo = prompt("Titulo do capítulo: ")
         let texto = prompt("Texto do capítulo:")
@@ -94,33 +93,18 @@ function cadastrarCapitulos(novoLivro: Livro): void {
     }
 }
 
-function removerLivro() {
-    if (Livros.length > 0) {
-        console.log("\n+================ Livros - Remover ==================+");
-        for (let i = 0; i < Livros.length; i++) {
-            console.log(`| [${i + 1}] - Livro: ${Livros[i].getTitulo} `);
-        }
-
-        let menuOpt = -1;
-        while (menuOpt < 0 || menuOpt > Livros.length) {
-            menuOpt = parseInt(prompt(`Digite o id do livro para remover, ou (-1) para sair: `));
-            if (menuOpt > 0 && menuOpt <= Livros.length) {
-                Livros.splice(menuOpt-1, 1);
-                console.log("Livro removido com sucesso!");
-                break;                
-            }
-            else if (menuOpt == -1)
-                break;
-            else {
-                console.log("Id inválido, favor informar novamente.");
-                menuOpt = -1;
-            }
-        }
-    }
-    else
-        console.log("\n\nNão há livros há livros registrados.\n\n");
+function deletarLivro(id: number){
+    Livros.splice(id-1, 1);
+    console.log("Livro removido com sucesso!");
 }
 
+function removerLivro() {
+    if (Livros.length > 0) {
+        menu('Remover Livros', deletarLivro)
+    }
+    else
+        console.log("\n\nNão há livros registrados.\n\n");
+}
 
 function listarAcervo() {
     if (Livros.length > 0) {
@@ -136,7 +120,7 @@ function listarAcervo() {
         console.log("+==========================================+");
     }
     else {
-        console.log("Não há dados cadastrados.");
+        console.log("Não há livros registrados.");
     }
     console.log("\n");
 }
@@ -194,28 +178,12 @@ function modificarLivroDoAcervo() {
 
 function menuListarCapitulos(): void {
     if (Livros.length > 0) {
-        console.log("\n+================ Livros - Listar Capítulos ==================+");
-
-        for (let i = 0; i < Livros.length; i++) {
-            console.log(`| [${i + 1}] - Livro: ${Livros[i].getTitulo} `);
-        }
-
-        let menuOpt = -1;
-        while (menuOpt < 0 || menuOpt > Livros.length) {
-            menuOpt = parseInt(prompt(`Digite o id do livro para ver seu(s) capítulo(s), ou -1 para sair: `));
-            if (menuOpt > 0 && menuOpt <= Livros.length) {
-                listarCapitulos(Livros[menuOpt - 1]);
-            }
-            else if (menuOpt == -1)
-                break;
-            else {
-                console.log("Id inválido, favor informar novamente.");
-                menuOpt = -1;
-            }
-        }
+        listarLivros()
+        menu('Listar Capítulos', listarCapitulos)
     }
-    else
-        console.log("\n\nNão há livros há livros registrados.\n\n");
+    else{
+        console.log("\n\nNão há livros registrados.\n\n");
+    }
 }
 
 function listarCapitulos(livro: Livro): void {
@@ -228,74 +196,53 @@ function listarCapitulos(livro: Livro): void {
     console.log("+=============================================================+\n");
 }
 
-function menuAdicionarCapitulo(): void {
-    if (Livros.length > 0) {
-        console.log("\n+================ Livros - Adicionar cap. ==================+");
-        for (let i = 0; i < Livros.length; i++) {
-            console.log(`| [${i + 1}] - Livro: ${Livros[i].getTitulo} `);
-        }
-
-        let menuOpt = -1;
-        while (menuOpt < 0 || menuOpt > Livros.length) {
-            menuOpt = parseInt(prompt(`Digite o id do livro para adicionar capítulo(s), ou (-1) para sair: `));
-            if (menuOpt > 0 && menuOpt <= Livros.length) {
-                adicionarCapituloLivro(Livros[menuOpt - 1]);
-            }
-            else if (menuOpt == -1)
-                break;
-            else {
-                console.log("Id inválido, favor informar novamente.");
-                menuOpt = -1;
-            }
-        }
+function listarLivros(){
+    console.log("+=========================( Livros )======================+");
+    for (let i = 0; i < Livros.length; i++) {
+        console.log(`| [${i + 1}] - Livro: ${Livros[i].getTitulo} `);
     }
-    else
-        console.log("\n\nNão há livros há livros registrados.\n\n");
+    console.log("+=============================================================+\n");
 }
 
-function adicionarCapituloLivro(livro: Livro): void {
-    let numCap = +prompt("Digite o número de capítulos: ")
-    for (let i = 0; i < numCap; i++) {
-        let titulo = prompt("Titulo do capítulo: ")
-        let texto = prompt("Texto do capítulo:")
+function menu(texto: string, funcao: Function){  
+    let menuOpt = -2;
+    while (menuOpt !== -1) {
+        console.log(`\n+================ Livros - ${texto}. ==================+`);
+        listarLivros()
+        menuOpt = parseInt(prompt(`Digite o id do livro, ou (-1) para sair: `));
+        
+        if (menuOpt == -1){
+            break;
+        }
+        if (validaLivro(menuOpt)) {
+            funcao(Livros[menuOpt - 1]);
+        }
+    }
+}
 
-        livro.adicionarCapitulo(titulo, texto);
+function validaLivro(id: number) {
+    if (id > Livros.length || id < 0){
+        console.log('Livro inválido')
+        return false
+    } else {
+        return true
     }
 }
 
 function menuAdicionarAutor(): void {
     if (Livros.length > 0) {
-        console.log("\n+================ Livros - Adicionar Autor ==================+");
-        for (let i = 0; i < Livros.length; i++) {
-            console.log(`| [${i + 1}] - Livro: ${Livros[i].getTitulo} `);
-        }
-
-        let menuOpt = -1;
-        while (menuOpt < 0 || menuOpt > Livros.length) {
-            menuOpt = parseInt(prompt(`Digite o id do livro para adicionar capítulo(s), ou (-1) para sair: `));
-            if (menuOpt > 0 && menuOpt <= Livros.length) {
-                adicionarAutorLivro(Livros[menuOpt - 1]);
-            }
-            else if (menuOpt == -1)
-                break;
-            else {
-                console.log("Id inválido, favor informar novamente.");
-                menuOpt = -1;
-            }
-        }
+        menu('Adicionar Autores', cadastrarAutores)
     }
-    else
-        console.log("\n\nNão há livros há livros registrados.\n\n");
+    else{
+        console.log("\n\nNão há livros registrados.\n\n");
+    }
 }
 
-function adicionarAutorLivro(livro: Livro): void {
-    let numAutor = +prompt("Digite o número de autores: ")
-    for (let i = 0; i < numAutor; i++) {
-        let nome = prompt("Nome do autor: ")
-        let dataDeNascimento = prompt("Data de Nascimento do autor: (dd/mm/yyyy)")
-        let partes = dataDeNascimento.split("/")
-        var data = new Date(+partes[1], +partes[0], +partes[2])
-
-        livro.adicionarAutor(nome, data);
+function menuAdicionarCapitulo(): void {
+    if (Livros.length > 0) {
+        menu('Adicionar Capitulos', cadastrarCapitulos)
+    }
+    else{
+        console.log("\n\nNão há livros registrados.\n\n");
     }
 }
