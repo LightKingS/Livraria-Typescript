@@ -178,7 +178,6 @@ function modificarLivroDoAcervo() {
 
 function menuListarCapitulos(): void {
     if (Livros.length > 0) {
-        listarLivros()
         menu('Listar Capítulos', listarCapitulos)
     }
     else{
