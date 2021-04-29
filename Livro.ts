@@ -57,9 +57,9 @@ export default class Livro{
         const nCapitulos = this._capitulos.length;
 
         this._capitulos.push(new Capitulo(titulo, texto))
-        if( nCapitulos >= this._capitulos.length)
+        if( nCapitulos >= this._capitulos.length){
             return -1;
-        
+        } 
         this._numeroDeCapitulos++;
         return nCapitulos;
     }
