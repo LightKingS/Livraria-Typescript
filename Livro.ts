@@ -1,12 +1,3 @@
-//Modificado por: Rafael Ochôa Mello - 06/04/21
-/* (Ajustes):
-
-- Alterada a imp. do constructor
-- Alteradas as assinaturas dos Gets'n Sets
-    dos atributos nome e data de nasc.
-- Re-implementados os métodos de adição e remoção de cap. e autor
-*/
-
 import Autor from "./Autor"
 import Capitulo from "./Capitulo"
 
@@ -21,7 +12,6 @@ export default class Livro{
         this._ISBN = ISBN;
         this._titulo = titulo;
     }
-
     
     public get getCapitulos() : Capitulo[] {
         return this._capitulos;
@@ -32,7 +22,6 @@ export default class Livro{
     public set setCapitulos(capitulos: Capitulo[]){
         this._capitulos = capitulos;
     }
-
     
     public get getAutores() : Autor[] {
         return this._autores;
@@ -41,18 +30,15 @@ export default class Livro{
     public set setAutores(autores: Autor[]){
         this._autores = autores;
     }
-
     
     public get getISBN() : string {
         return this._ISBN;
     }
-
     
     public set setISBN(ISBN : string) {
         this._ISBN = ISBN;
     }
 
-    //Métodos de Capítulos
     adicionarCapitulo(titulo: string, texto: string): number {
         const nCapitulos = this._capitulos.length;
 
@@ -80,7 +66,6 @@ export default class Livro{
         return i;
     }
 
-    //Métodos de Autor
     adicionarAutor(nome: string, dataDeNascimento: Date): number {
         const nAutores = this._autores.length;
 
@@ -90,7 +75,6 @@ export default class Livro{
 
         return nAutores;
     }
-
     
     removerAutor(autorProcurado: Autor): number{
         let i = 0;
